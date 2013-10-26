@@ -26,6 +26,8 @@ _imageHeight,
 _stageWidth,
 _stageHeight,
 _enableMouseMove = false,
+_xRot = 0,
+_yRot = 0,
 
 _guiOptions  = {
 	stageSize:	 	1,
@@ -199,15 +201,24 @@ function animate() {
 	render();
 }
 
+function degInRad(deg) {
+    return deg * Math.PI / 180;
+} 
+
 function render() {
 
 	_lineHolder.scale = new THREE.Vector3(_guiOptions.scale,_guiOptions.scale, _guiOptions.scale);
 
-	var xrot = _mouseX/_stageWidth * Math.PI*2 + Math.PI;
-	var yrot = _mouseY/_stageHeight* Math.PI*2 + Math.PI;
+	var xrot = _mouseX/_stageWidth * Math.PI*2 + Math.PI + Math.sin(_xRot / 100) * 0.5;
+	var yrot = _mouseY/_stageHeight* Math.PI*2 + Math.PI + Math.sin(_yRot / 200) * 0.25;
 
 	_lineHolder.rotation.x += (-yrot - _lineHolder.rotation.x) * 0.3;
 	_lineHolder.rotation.y += (xrot - _lineHolder.rotation.y) * 0.3;
+
+//	_camera.rotateOnAxis((new THREE.Vector3(0, 1, 0)).normalize(), degInRad(1));
+
+	_xRot++;
+	_yRot++;
 
 	_renderer.render(_scene, _camera);
 }

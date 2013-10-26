@@ -7,13 +7,18 @@
     </style>
 </head>
 <body>
-
+  
+<script src="http://10.0.1.220:1337/socket.io/socket.io.js"></script>
 <script src="filters/sephia.js"></script>
 <script src="filters/bw.js"></script>
 <script src="filters/stretch.js"></script>
 <script src="gum.js"></script>
 <div id="imageCaptureView"></div>
 <script>
+
+	serviceUrl = 'http://10.0.1.220:1337';
+    var socket = io.connect(serviceUrl);
+
     var imageCapturer = new ImageCapturer(
             {
                 selector: '#imageCaptureView',
@@ -40,6 +45,14 @@
             imageCapturer.filterMethod = filters[idx];
         }
     }
+
+    function publishPicture(data) {
+        socket.emit("addphoto", {
+            dataurl: data
+        })
+        console.log("Bilde publisert");
+    }
+
 </script>
 
 </body>
