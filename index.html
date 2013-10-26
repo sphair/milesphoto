@@ -9,16 +9,15 @@
     <style type="text/css">
         .newImg {
             position: absolute;
-            top: 30;
-            left: 0;
+            top: 0px;
+            left: 0px;
             width: 200px;
         }
 
         .publishBtn {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: auto;
+            top: 30px;
+            left: 0px;
         }
     </style>
 </head>
@@ -29,23 +28,27 @@
     <script>
         serviceUrl = 'http://10.0.1.220:1337';
 
-        var socket = io.connect(serviceUrl);
+        var milesSocket = 
+            (function () {
+                var socket = io.connect(serviceUrl);
 
-        socket.on('picture', function (data) {
-            $('.newImg').remove();
-            var img = $('<img class="newImg" src="' + data + '" alt="" />');
-            $('body').append(img);
-        });
+                socket.on('picture', function (data) {
+                    $('.newImg').remove();
+                    var img = $('<img class="newImg" src="' + data + '" alt="" />');
+                    $('body').append(img);
+                });
 
+                return socket;
+            })();
 
         function publishPicture(data) {
-            socket.emit("addpicture", {
+            milesSocket.emit("addpicture", {
                 dataurl: data
             })
         };
 
         function onPublishClicked() {
-            //TODO: hent tdata og kall publishPicture()
+            //hent bilde og kall publishPicture
         }
 
     </script>
