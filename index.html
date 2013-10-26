@@ -62,8 +62,8 @@
                 $('.newImg').remove();
                 var img = $('<img class="newImg" src="' + data + '" alt="" />');
                 $('body').append(img);
+                setImage(data);
             }
-            setImage(data);
         });
 
         function publishPicture(data) {
@@ -102,7 +102,7 @@
                 <h1>this space for rent</h1>
             </div>
         </div>
-    </div>@
+    </div>
 
     <script src="js/Three.js"></script>
     <script src="js/Detector.js"></script>
