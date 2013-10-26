@@ -17,26 +17,36 @@
     <script>
         serviceUrl = 'http://10.0.1.220:1337';
 
-        $(function () {
-            var socket = io.connect(serviceUrl);
+        var milesSocket = 
+            $(function () {
+                var socket = io.connect(serviceUrl);
 
-            socket.on('picture', function (data) {
-                var img = $('<img class="newImg" src="' + data + '" alt="" />');
-                $('body').append(img);
-                setTimeout(function () {
-                    img.remove();
-                }, 4000);
+                socket.on('picture', function (data) {
+                    var img = $('<img class="newImg" src="' + data + '" alt="" />');
+                    $('body').append(img);
+                    setTimeout(function () {
+                        img.remove();
+                    }, 4000);
+                });
+
+                return socket;
             });
-        });
+
+        function addPicture(data) {
+            milesSocket.emit("addpicture", {
+                dataurl: data
+            })
+        };
     </script>
 
     <div id="container" style="width: 100%; height: 100%;">
         <div id="stage" style="width: 100%; height: 100%;">
             <div id="overlay">
-                <h1>Drop Image Here</h1>
+                <h1>this space for rent</h1>
             </div>
         </div>
-    </div>
+    </div>@
+
     <script src="js/Three.js"></script>
     <script src="js/Detector.js"></script>
     <script src="js/RequestAnimationFrame.js"></script>
