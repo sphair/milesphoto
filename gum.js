@@ -94,7 +94,7 @@ ImageCapturer.prototype.internalFilter = function (imageData) {
 
 ImageCapturer.prototype.returnImageData = function () {
     if (this.captureCallback) {
-        this.captureCallback(this.contextIn.getImageData(0, 0, this.width, this.height));
+        this.captureCallback(this.contextOut.getImageData(0, 0, this.width, this.height));
     }
 };
 

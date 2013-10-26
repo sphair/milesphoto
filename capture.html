@@ -23,7 +23,18 @@
     var imageCapturer = new ImageCapturer(
             {
                 selector: '#imageCaptureView',
-                filter: sephia
+                filter: sephia,
+                captureCallback: function(imageData) {
+                    var body = document.querySelector('body');
+                    var canvas = body.appendChild(document.createElement('canvas'));
+                    canvas.setAttribute('height', imageData.height);
+                    canvas.setAttribute('width', imageData.width);
+                    var context = canvas.getContext('2d');
+                    context.putImageData(imageData, 0, 0);
+                    var url = canvas.toDataURL('jpg');
+                    publishPicture(url);
+                    body.removeChild(canvas);
+                }
             });
     imageCapturer.start();
 
