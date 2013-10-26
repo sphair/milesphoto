@@ -1,34 +1,48 @@
-<html>
+<!DOCTYPE HTML>
+<html lang="en">
 <head>
-    <title></title>
+    <title>Rottereir</title>
+    <meta charset="utf-8">
+    <link href='http://fonts.googleapis.com/css?family=Lobster&subset=cyrillic,latin&text=Rutt-Etra-IzerDropImageHere' rel='stylesheet' type='text/css'>
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+
     <style type="text/css">
 
     </style>
 </head>
 <body>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+    <script src="http://10.0.1.220:1337/socket.io/socket.io.js"></script>
+    <script src="gum.js"></script>
+    <script>
+        serviceUrl = 'http://10.0.1.220:1337';
 
+        $(function () {
+            var socket = io.connect(serviceUrl);
 
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
-
-<script src="http://10.0.1.220:1337/socket.io/socket.io.js"></script>
-<script src="gum.js"></script>
-<script>
-    serviceUrl = 'http://10.0.1.220:1337';
-
-    $(function () {
-        var socket = io.connect(serviceUrl);
-
-        socket.on('picture', function (data) {
-            var img = $('<img class="newImg" src="' + data + '" alt="" />');
-            $('body').append(img);
-            setTimeout(function () {
-                img.remove();
-            }, 4000);
+            socket.on('picture', function (data) {
+                var img = $('<img class="newImg" src="' + data + '" alt="" />');
+                $('body').append(img);
+                setTimeout(function () {
+                    img.remove();
+                }, 4000);
+            });
         });
-    });
+    </script>
 
-</script>
-<video id="icv"/>
+    <div id="container" style="width: 100%; height: 100%;">
+        <div id="stage" style="width: 100%; height: 100%;">
+            <div id="overlay">
+                <h1>Drop Image Here</h1>
+            </div>
+        </div>
+    </div>
+    <script src="js/Three.js"></script>
+    <script src="js/Detector.js"></script>
+    <script src="js/RequestAnimationFrame.js"></script>
+    <script src="js/jquery.mousewheel.min.js"></script>
+    <script src="js/ruttetraizer.js"></script>
 
+    <video id="icv"/>
 </body>
 </html>

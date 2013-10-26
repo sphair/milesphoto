@@ -251,7 +251,7 @@ function getBrightness(c) {
 
 function loadSample() {
 	_inputImage = new Image();
-	_inputImage.src = ("img/vermeer.jpg");
+	_inputImage.src = ("img/test.jpg");
 
 	_inputImage.onload = function() {
 		onImageLoaded();
