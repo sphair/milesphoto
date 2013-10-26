@@ -31,10 +31,12 @@
 
         if (e.keyCode == '37') {
             idx--;
+            idx = idx % filters.length;
             imageCapturer.filterMethod = filters[idx];
         }
         else if (e.keyCode == '39') {
             idx++;
+            idx = idx % filters.length;
             imageCapturer.filterMethod = filters[idx];
         }
     }
