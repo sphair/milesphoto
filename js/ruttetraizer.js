@@ -40,9 +40,13 @@ _guiOptions  = {
 function saveImage() {
 	render();
 	var data = _renderer.domElement.toDataURL("image/jpeg");
-	publishPicture(data);
+	//publishPicture(data);
 //	window.open(_renderer.domElement.toDataURL("image/png"));
-}
+};
+
+function getJpegRenderer() {
+	return _renderer.domElement.toDataURL("image/jpeg");
+};
 
 /**
  * Init page
