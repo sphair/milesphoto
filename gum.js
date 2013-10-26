@@ -20,7 +20,7 @@ window.requestAnimFrame = (function () {
 
 var ImageCapturer = function (opts) {
     this.selector = opts.selector || '#ic';
-    this.feedCallback = opts.feedCallback;
+    this.realtimeCallback = opts.realtimeCallback;
     this.captureCallback = opts.captureCallback;
     var targetElement = document.querySelector(this.selector);
     this.videoElem = targetElement.appendChild(document.createElement('video'));
@@ -71,8 +71,8 @@ ImageCapturer.prototype.startCapturing = function () {
 ImageCapturer.prototype.grabFrame = function () {
     this.context.drawImage(this.videoElem, 0, 0, this.width, this.height);
 
-    if (this.feedCallback) {
-        this.feedCallback(this.context.getImageData(0, 0, this.width, this.height));
+    if (this.realtimeCallback) {
+        this.realtimeCallback(this.context.getImageData(0, 0, this.width, this.height));
     }
 };
 
