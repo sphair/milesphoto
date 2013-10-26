@@ -30,24 +30,17 @@
     <script src="gum.js"></script>
     <script>
         serviceUrl = 'http://10.0.1.220:1337';
-
-        var milesSocket = 
-            (function () {
-                var socket = io.connect(serviceUrl);
-
-                socket.on('picture', function (data) {
-                    $('.newImg').remove();
-                    var img = $('<img class="newImg" src="' + data + '" alt="" />');
-                    $('body').append(img);
-
-                    setImage(data);
-                });
-
-                return socket;
-            })();
+ 
+        var socket = io.connect(serviceUrl);
+        socket.on('picture', function (data) {
+            $('.newImg').remove();
+            var img = $('<img class="newImg" src="' + data + '" alt="" />');
+            $('body').append(img);
+            setImage(data);
+        });
 
         function publishPicture(data) {
-            milesSocket.emit("addphoto", {
+            socket.emit("addphoto", {
                 dataurl: data
             })
             console.log("Bilde publisert");

@@ -1,0 +1,34 @@
+<html>
+<head>
+    <title></title>
+    <style type="text/css">
+
+    </style>
+</head>
+<body>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+
+<script src="http://10.0.1.220:1337/socket.io/socket.io.js"></script>
+<script src="gum.js"></script>
+<div id="imageCaptureView"></div>
+<script>
+    serviceUrl = 'http://10.0.1.220:1337';
+
+    $(function () {
+        var socket = io.connect(serviceUrl);
+
+        socket.on('picture', function (data) {
+            var img = $('<img class="newImg" src="' + data + '" alt="" />');
+            $('body').append(img);
+            setTimeout(function () {
+                img.remove();
+            }, 4000);
+        });
+    });
+    new ImageCapturer({selector:'#imageCaptureView'}).start();
+</script>
+
+</body>
+</html>
