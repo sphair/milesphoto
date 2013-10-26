@@ -250,6 +250,10 @@ function getBrightness(c) {
 	return ( 0.34 * c.r + 0.5 * c.g + 0.16 * c.b );
 };
 
+function setImage(image) {
+	_inputImage = image;
+}
+
 function loadSample() {
 	_inputImage = new Image();
 	_inputImage.src = ("img/test.jpg");
