@@ -263,6 +263,14 @@ function setImage(image) {
 	};
 }
 
+function setImagePixels(image) {
+	_imageWidth = image.width;
+	_imageHeight = image.height;
+	_pixels = image.data;
+
+	createLines();
+}
+
 function loadSample() {
 	_inputImage = new Image();
 	_inputImage.src = ("img/test.jpg");

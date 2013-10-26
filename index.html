@@ -22,12 +22,21 @@
             width: auto;
             height: auto;
         }
+
+        #imageCaptureView {
+            position: absolute;
+            top: 210px;
+            left: 0;
+            width: 200px;
+            height: 200px;
+        }
     </style>
 </head>
 <body>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
     <script src="http://10.0.1.220:1337/socket.io/socket.io.js"></script>
     <script src="gum.js"></script>
+    <div id="imageCaptureView"></div>
     <script>
         serviceUrl = 'http://10.0.1.220:1337';
  
@@ -36,7 +45,7 @@
             $('.newImg').remove();
             var img = $('<img class="newImg" src="' + data + '" alt="" />');
             $('body').append(img);
-            setImage(data);
+//            setImage(data);
         });
 
         function publishPicture(data) {
@@ -49,6 +58,13 @@
         function onPublishClicked() {
             publishPicture( getJpegRenderer() );
         };
+
+        new ImageCapturer(
+                {
+                    selector: '#imageCaptureView',
+                    callback: function (imagedata) {
+                        setImagePixels(imagedata);
+                    }}).start();
 
     </script>
     <button class="publishBtn" type="button" onclick="onPublishClicked()">Publiser bilde</button>
