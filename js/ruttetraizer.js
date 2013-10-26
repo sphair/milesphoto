@@ -254,6 +254,23 @@ function getBrightness(c) {
 	return ( 0.34 * c.r + 0.5 * c.g + 0.16 * c.b );
 };
 
+function setImage(image) {
+	_inputImage = new Image();
+	_inputImage.src = image;
+
+	_inputImage.onload = function() {
+		onImageLoaded();
+	};
+}
+
+function setImagePixels(image) {
+	_imageWidth = image.width;
+	_imageHeight = image.height;
+	_pixels = image.data;
+
+	createLines();
+}
+
 function loadSample() {
 	_inputImage = new Image();
 	_inputImage.src = ("img/test.jpg");
