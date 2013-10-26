@@ -32,7 +32,7 @@ var ImageCapturer = function (opts) {
     this.videoElem.setAttribute('style', 'display:none;');
     this.canvasInElem.setAttribute('style', 'display:none;');
 
-    this.canvasInElem.addEventListener('click', this.returnImageData.bind(this));
+    this.canvasOutElem.addEventListener('click', this.returnImageData.bind(this));
 };
 
 ImageCapturer.prototype.start = function () {
