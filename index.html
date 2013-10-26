@@ -7,7 +7,12 @@
     <link href="css/style.css" rel="stylesheet" type="text/css">
 
     <style type="text/css">
-
+        .newImg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200px;
+        }
     </style>
 </head>
 <body>
@@ -22,11 +27,9 @@
                 var socket = io.connect(serviceUrl);
 
                 socket.on('picture', function (data) {
+                    $('.newImg').remove();
                     var img = $('<img class="newImg" src="' + data + '" alt="" />');
                     $('body').append(img);
-                    setTimeout(function () {
-                        img.remove();
-                    }, 4000);
                 });
 
                 return socket;
