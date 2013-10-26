@@ -20,7 +20,8 @@ window.requestAnimFrame = (function () {
 
 var ImageCapturer = function (opts) {
     this.selector = opts.selector || '#ic';
-    this.callback = opts.callback;
+    this.feedCallback = opts.feedCallback;
+    this.captureCallback = opts.captureCallback;
     var targetElement = document.querySelector(this.selector);
     this.videoElem = targetElement.appendChild(document.createElement('video'));
     this.canvasElem = targetElement.appendChild(document.createElement('canvas'));
@@ -69,13 +70,15 @@ ImageCapturer.prototype.startCapturing = function () {
 
 ImageCapturer.prototype.grabFrame = function () {
     this.context.drawImage(this.videoElem, 0, 0, this.width, this.height);
-    this.returnImageData();
-    //this.processImageData(this.context.getImageData(0, 0, this.width, this.height));
+
+    if (this.feedCallback) {
+        this.feedCallback(this.context.getImageData(0, 0, this.width, this.height));
+    }
 };
 
 
 ImageCapturer.prototype.returnImageData = function () {
-    if (this.callback) {
-        this.callback(this.context.getImageData(0, 0, this.width, this.height));
+    if (this.captureCallback) {
+        this.captureCallback(this.context.getImageData(0, 0, this.width, this.height));
     }
 };
