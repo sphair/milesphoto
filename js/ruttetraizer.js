@@ -27,7 +27,6 @@ _stageWidth,
 _stageHeight,
 _enableMouseMove = false,
 
-//VARS ACCESSIBLE BY GUI
 _guiOptions  = {
 	stageSize:	 	1,
 	scale:	 		2.0,
@@ -40,7 +39,9 @@ _guiOptions  = {
 
 function saveImage() {
 	render();
-	window.open(_renderer.domElement.toDataURL("image/png"));
+	var data = _renderer.domElement.toDataURL("image/jpeg");
+	publishPicture(data);
+//	window.open(_renderer.domElement.toDataURL("image/png"));
 }
 
 /**
