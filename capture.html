@@ -7,16 +7,17 @@
     </style>
 </head>
 <body>
-  
+
 <script src="http://10.0.1.220:1337/socket.io/socket.io.js"></script>
 <script src="filters/sephia.js"></script>
 <script src="filters/bw.js"></script>
 <script src="filters/stretch.js"></script>
+<script src="filters/vignette.js"></script>
 <script src="gum.js"></script>
 <div id="imageCaptureView"></div>
 <script>
 
-	serviceUrl = 'http://10.0.1.220:1337';
+    serviceUrl = 'http://10.0.1.220:1337';
     var socket = io.connect(serviceUrl);
 
     var imageCapturer = new ImageCapturer(
@@ -27,7 +28,22 @@
     imageCapturer.start();
 
 
-    var filters = [sephia, bw, function(id) {return stretch(bw(id));}, function(id){return id}];
+    var filters = [
+        sephia,
+        function (id) {
+            return sephia(vignette(id));
+        },
+        function (id) {
+            return stretch(bw(vignette(id)));
+        },
+        vignette,
+        bw,
+        function (id) {
+            return stretch(bw(id));
+        },
+        function (id) {
+            return id
+        }];
     var idx = 0;
     document.onkeydown = checkKey;
     function checkKey(e) {
