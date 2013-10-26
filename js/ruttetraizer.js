@@ -255,7 +255,12 @@ function getBrightness(c) {
 };
 
 function setImage(image) {
-	_inputImage = image;
+	_inputImage = new Image();
+	_inputImage.src = image;
+
+	_inputImage.onload = function() {
+		onImageLoaded();
+	};
 }
 
 function loadSample() {
