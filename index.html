@@ -38,6 +38,12 @@
             left: 0;
             width: 200px;
             height: 200px;
+            z-index: 950;
+        }
+
+        #imageCaptureView canvas
+        {
+            width: 200px;
         }
     </style>
 </head>
@@ -57,7 +63,7 @@
                 var img = $('<img class="newImg" src="' + data + '" alt="" />');
                 $('body').append(img);
             }
-//            setImage(data);
+            setImage(data);
         });
 
         function publishPicture(data) {
@@ -80,9 +86,13 @@
         new ImageCapturer(
                 {
                     selector: '#imageCaptureView',
-                    callback: function (imagedata) {
+                    captureCallback: function(imagedata) {
                         setImagePixels(imagedata);
-                    }}).start();
+                    }
+//                   ,realtimeCallback: function (imagedata) {
+//                        setImagePixels(imagedata);
+ //                   }
+                }).start();
     </script>
     <button class="publishBtn" type="button" onclick="onPublishClicked()">Publiser bilde</button>
     <button id="pauseButton" class="pauseBtn" type="button" onclick="onPauseClicked()">Pause</button>
