@@ -9,9 +9,16 @@
     <style type="text/css">
         .newImg {
             position: absolute;
-            top: 0;
+            top: 30;
             left: 0;
             width: 200px;
+        }
+
+        .publishBtn {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: auto;
         }
     </style>
 </head>
@@ -22,26 +29,27 @@
     <script>
         serviceUrl = 'http://10.0.1.220:1337';
 
-        var milesSocket = 
-            $(function () {
-                var socket = io.connect(serviceUrl);
+        var socket = io.connect(serviceUrl);
 
-                socket.on('picture', function (data) {
-                    $('.newImg').remove();
-                    var img = $('<img class="newImg" src="' + data + '" alt="" />');
-                    $('body').append(img);
-                });
+        socket.on('picture', function (data) {
+            $('.newImg').remove();
+            var img = $('<img class="newImg" src="' + data + '" alt="" />');
+            $('body').append(img);
+        });
 
-                return socket;
-            });
 
-        function addPicture(data) {
-            milesSocket.emit("addpicture", {
+        function publishPicture(data) {
+            socket.emit("addpicture", {
                 dataurl: data
             })
         };
-    </script>
 
+        function onPublishClicked() {
+            //TODO: hent tdata og kall publishPicture()
+        }
+
+    </script>
+    <button class="publishBtn" type="button" onclick="onPublishClicked()">Publiser bilder</button>
     <div id="container" style="width: 100%; height: 100%;">
         <div id="stage" style="width: 100%; height: 100%;">
             <div id="overlay">
