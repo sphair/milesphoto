@@ -22,12 +22,17 @@ var ImageCapturer = function (opts) {
     this.selector = opts.selector || '#ic';
     this.realtimeCallback = opts.realtimeCallback;
     this.captureCallback = opts.captureCallback;
+    this.filterMethod = opts.filter;
     var targetElement = document.querySelector(this.selector);
     this.videoElem = targetElement.appendChild(document.createElement('video'));
-    this.canvasElem = targetElement.appendChild(document.createElement('canvas'));
-    this.context = this.canvasElem.getContext('2d');
+    this.canvasInElem = targetElement.appendChild(document.createElement('canvas'));
+    this.contextIn = this.canvasInElem.getContext('2d');
+    this.canvasOutElem = targetElement.appendChild(document.createElement('canvas'));
+    this.contextOut = this.canvasOutElem.getContext('2d');
     this.videoElem.setAttribute('style', 'display:none;');
-    this.canvasElem.addEventListener('click', this.returnImageData.bind(this));
+    this.canvasInElem.setAttribute('style', 'display:none;');
+
+    this.canvasInElem.addEventListener('click', this.returnImageData.bind(this));
 };
 
 ImageCapturer.prototype.start = function () {
@@ -57,8 +62,10 @@ ImageCapturer.prototype.start = function () {
 ImageCapturer.prototype.onLoadedMetadata = function () {
     this.width = this.videoElem.videoWidth;
     this.height = this.videoElem.videoHeight;
-    this.canvasElem.setAttribute('width', this.width);
-    this.canvasElem.setAttribute('height', this.height);
+    this.canvasInElem.setAttribute('width', this.width);
+    this.canvasOutElem.setAttribute('width', this.width);
+    this.canvasInElem.setAttribute('height', this.height);
+    this.canvasOutElem.setAttribute('height', this.height);
     this.startCapturing();
 };
 
@@ -69,16 +76,25 @@ ImageCapturer.prototype.startCapturing = function () {
 };
 
 ImageCapturer.prototype.grabFrame = function () {
-    this.context.drawImage(this.videoElem, 0, 0, this.width, this.height);
-
+    this.contextIn.drawImage(this.videoElem, 0, 0, this.width, this.height);
+    this.contextOut.putImageData(this.internalFilter(this.contextIn.getImageData(0, 0, this.width, this.height)), 0, 0);
     if (this.realtimeCallback) {
-        this.realtimeCallback(this.context.getImageData(0, 0, this.width, this.height));
+        this.realtimeCallback(this.contextIn.getImageData(0, 0, this.width, this.height));
+    }
+};
+
+ImageCapturer.prototype.internalFilter = function (imageData) {
+    if(this.filterMethod) {
+        return this.filterMethod(imageData);
+    } else {
+        return imageData;
     }
 };
 
 
 ImageCapturer.prototype.returnImageData = function () {
     if (this.captureCallback) {
-        this.captureCallback(this.context.getImageData(0, 0, this.width, this.height));
+        this.captureCallback(this.contextIn.getImageData(0, 0, this.width, this.height));
     }
 };
+

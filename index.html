@@ -59,10 +59,14 @@
         var pause = false;
         var socket = io.connect(serviceUrl);
         socket.on('picture', function (data) {
+            $('.newImg').remove();
+            var img = $('<img id="publishedImage" class="newImg" src="' + data + '" alt="" />');
+
+            img.click(function() {
+                setImage(data);
+            });
+            $('body').append(img);
             if(!pause) {
-                $('.newImg').remove();
-                var img = $('<img class="newImg" src="' + data + '" alt="" />');
-                $('body').append(img);
                 setImage(data);
             }
         });
@@ -94,6 +98,8 @@
 //                        setImagePixels(imagedata);
  //                   }
                 }).start();
+
+
     </script>
     <button class="publishBtn" type="button" onclick="onPublishClicked()">Publiser bilde</button>
     <button id="pauseButton" class="pauseBtn" type="button" onclick="onPauseClicked()">Pause</button>
