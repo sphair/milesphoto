@@ -21,16 +21,12 @@ window.requestAnimFrame = (function () {
 var ImageCapturer = function (opts) {
     this.selector = opts.selector || '#ic';
     this.callback = opts.callback;
-    var body = document.querySelector('body');
-    this.videoElem = body.appendChild(document.createElement('video'));
-    this.canvasElem = body.appendChild(document.createElement('canvas'));
-    this.link = body.appendChild(document.createElement('a'));
-    this.link.setAttribute('href', '#');
-    this.link.appendChild(document.createTextNode("Grab image"));
-    this.link.addEventListener('click', this.getImageData.bind(this));
+    var targetElement = document.querySelector(this.selector);
+    this.videoElem = targetElement.appendChild(document.createElement('video'));
+    this.canvasElem = targetElement.appendChild(document.createElement('canvas'));
     this.context = this.canvasElem.getContext('2d');
     this.videoElem.setAttribute('style', 'display:none;');
-    this.canvasElem.addEventListener('click', this.getImageData.bind(this));
+    this.canvasElem.addEventListener('click', this.returnImageData.bind(this));
 };
 
 ImageCapturer.prototype.start = function () {
@@ -69,19 +65,16 @@ ImageCapturer.prototype.onLoadedMetadata = function () {
 ImageCapturer.prototype.startCapturing = function () {
     window.requestAnimationFrame(this.startCapturing.bind(this));
     this.grabFrame();
-
-    //var self = this;
-    //setInterval(function () {
-    //    self.grabFrame();
-    //    self.startCapturing();
-    //}, 33);
 };
 
 ImageCapturer.prototype.grabFrame = function () {
     this.context.drawImage(this.videoElem, 0, 0, this.width, this.height);
+    this.returnImageData();
+    //this.processImageData(this.context.getImageData(0, 0, this.width, this.height));
 };
 
-ImageCapturer.prototype.getImageData = function () {
+
+ImageCapturer.prototype.returnImageData = function () {
     if (this.callback) {
         this.callback(this.context.getImageData(0, 0, this.width, this.height));
     }
